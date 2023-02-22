@@ -49,6 +49,37 @@ private List<Ve> list;
     public List<Ve> getList() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+    
+    private List<Ve> select(String sql, Object... args) {
+        List<Ve> list = new ArrayList<>();
+        try {
+            ResultSet rs = null;
+            try {
+                rs = JdbcHelper.query(sql, args);
+                while (rs.next()) {
+                    Ve model = readFromResultSet(rs);
+                    list.add(model);
+                }
+                System.err.println(rs);
+            } finally {
+                rs.getStatement().getConnection().close();
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        return list;
+    }
+    
+    private Ve readFromResultSet(ResultSet rs) throws SQLException {
+        Ve model = new Ve();
+        model.setMaVe(rs.getString("MaVe"));
+        model.setMaCB(rs.getString("MaCB"));
+        model.setLoaiVe(rs.getString("LoaiVe"));
+        model.setGiaVe(rs.getDouble("GiaVe"));
+        model.setSoLuong(rs.getInt("SoLuong"));
+        model.setSoLuongCon(rs.getInt("SoLuongCon"));
+        return model;
+    }
    
     public Ve findById(String MaVe) {
         String sql = "SELECT * FROM ThongKe WHERE MaVe = ?";
