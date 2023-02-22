@@ -50,5 +50,10 @@ private List<Ve> list;
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
    
+    public Ve findById(String MaVe) {
+        String sql = "SELECT * FROM ThongKe WHERE MaVe = ?";
+        List<Ve> list = select(sql, MaVe);
+        return list.size() > 0 ? list.get(0) : null;
+    }
    
 }
